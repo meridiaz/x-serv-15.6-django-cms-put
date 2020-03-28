@@ -7,9 +7,15 @@ from .models import Contenido
 def get_content(request, llave):
     if request.method == "PUT":
         valor = request.body.decode('utf-8')
-        
-        c = Contenido(clave=llave, valor=valor)
-        c.save()
+        try:
+            respuesta = Contenido.objects.get(clave=llave).valor
+            #si ya existe esa llave la sustituyo por el nuevo valor
+            valor2 = Contenido.objects.get(clave=llave)
+            valor2.valor = valor
+            valor2.save()
+        except Contenido.DoesNotExist:
+            c = Contenido(clave=llave, valor=valor)
+            c.save()
     try:
         respuesta = Contenido.objects.get(clave=llave).valor
     except Contenido.DoesNotExist:
