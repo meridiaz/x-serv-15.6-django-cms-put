@@ -16,8 +16,11 @@ def get_content(request, llave):
         except Contenido.DoesNotExist:
             c = Contenido(clave=llave, valor=valor)
             c.save()
-    try:
-        respuesta = Contenido.objects.get(clave=llave).valor
-    except Contenido.DoesNotExist:
-        respuesta = "No existe contenido para la clave: " +llave
-    return HttpResponse(respuesta)
+        return HttpResponse('<h1>Valor añadidio con exito</h1>')
+        
+    elif request.method == "GET":
+        try:
+            respuesta = Contenido.objects.get(clave=llave).valor
+        except Contenido.DoesNotExist:
+            respuesta = "No existe contenido para la clave: " +llave
+        return HttpResponse(respuesta)
